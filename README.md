@@ -2,7 +2,10 @@
 Radare2 wrapper and tools
 
 ## Example
+
+### Strings and functions
 ```python
+from elmo import R2
 r2 = R2('/bin/ls')
 
 for string in r2.strings("help"):
