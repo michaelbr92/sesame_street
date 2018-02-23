@@ -10,7 +10,7 @@ class Opcode(BaseDataType):
 
         self.offset = offset
 
-    def _get_opcode_data(self) -> Dict[str, ]:
+    def _get_opcode_data(self) -> Dict[str, any]:
         cmd = f"pdj 1 @0x{self.offset:x}"
         opcodes_data = self.cmdj(cmd)
 

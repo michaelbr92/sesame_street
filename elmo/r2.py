@@ -30,5 +30,5 @@ class R2(r2pipe.open):
         get the functions
         @return: all the functions
         """
-        all_functions = [data_types.Function(function_dict=func_data, _r2=self) for func_data in self.cmdj('aflj')]
+        all_functions = [data_types.Function(offset=int(offset, 16), _r2=self) for offset in self.cmdj('aflqj')]
         return all_functions

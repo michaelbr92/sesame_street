@@ -8,19 +8,17 @@ from .. import r2
 
 class Function(BaseDataType):
 
-    def __init__(self, function_dict: Dict[str, object], *args, **kwargs):
+    def __init__(self, offset: int, *args, **kwargs):
         """
         a wrapper over the r2 Function object
         :param _r2: the r2 instance
-        :param function_dict: a function json dict returned from radar2
+        :param offset: a function json dict returned from radar2
         """
         super().__init__(*args, **kwargs)
-        self._function_dict = function_dict
 
-        self._name = function_dict.get('name', 'unknown?')
-        self.offset = function_dict.get('offset', 0)
+        self.offset = offset
 
-    def get_function_info(self) -> Dict[str, ]:
+    def get_function_info(self) -> Dict[str, any]:
         """
         get the dictionary that represents all the info about this function
         @return: a dict of info
@@ -38,6 +36,9 @@ class Function(BaseDataType):
 
     @property
     def name(self) -> str:
+        """
+        @return: the function name
+        """
         function_info = self.get_function_info()
         return function_info['name']
 
