@@ -8,15 +8,19 @@ from .. import r2
 
 class Function(BaseDataType):
 
-    def __init__(self, offset: int, *args, **kwargs):
+    def __init__(self, offset: int = None, name: str="", *args, **kwargs):
         """
         a wrapper over the r2 Function object
-        :param _r2: the r2 instance
-        :param offset: a function json dict returned from radar2
+
+        @param offset: an offset to the function
+        @param name: get the function by name
         """
         super().__init__(*args, **kwargs)
-
-        self.offset = offset
+        if offset is not None:
+            self.offset = offset
+        elif name:
+            cmd = f"afij {name}"
+            self.offset = self.cmdj(cmd)[0]['offset']
 
     def get_function_info(self) -> Dict[str, any]:
         """
@@ -24,7 +28,6 @@ class Function(BaseDataType):
         @return: a dict of info
         """
         cmd = f"afij 0x{self.offset:x}"
-        print(cmd)
 
         function_infos = [f for f in self.cmdj(cmd) if f["offset"] == self.offset]
 
