@@ -1,3 +1,4 @@
+from pprint import pprint
 from typing import List
 import re
 import r2pipe
@@ -18,10 +19,11 @@ class R2(r2pipe.open):
         @warning search_query: the code might run slower if given search key
         @return: a list of string objects
         """
-        all_strings = [data_types.String(str_data, _r2=self) for str_data in self.cmdj('izzj').get('strings')]
+        all_strings = [data_types.String(offset=str_data['vaddr'], _r2=self)
+                       for str_data in self.cmdj('izzj').get('strings')]
 
         if search_query:
-            all_strings = [s for s in all_strings if re.match(bytes(f".*{search_query}.*", 'utf8'), s.string)]
+            all_strings = [s for s in all_strings if re.match(f".*{search_query}.*", s.string)]
 
         return all_strings
 

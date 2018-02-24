@@ -17,10 +17,14 @@ class String(BaseDataType):
         self.offset = offset
 
     @property
-    def string(self) -> bytes:
+    def string(self) -> str:
         cmd = f"pfj z @0x{self.offset:x}"
         found_strings = self.cmdj(cmd)
-        if found_strings != 1:
+
+        if found_strings is None:
+            return ""
+
+        if len(found_strings) != 1:
             raise Exception(f"Expected 1 string at 0x{self.offset:x} got {len(found_strings)}")
 
         return found_strings[0]["string"]
