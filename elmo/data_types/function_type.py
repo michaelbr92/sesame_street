@@ -90,7 +90,7 @@ class Function(BaseDataType):
             args_vars = self.cmdj("afvj")
         return args_vars['bp'] + args_vars['sp'] + args_vars['reg']
 
-    def variables(self, raw: bool):
+    def variables(self, raw: bool) -> List[Dict[str, any]]:
         """
         @param raw: will indicate it to return the variables in a raw way (json parsed dict)
         @return: all the variables (locals) in the function
@@ -99,6 +99,18 @@ class Function(BaseDataType):
             return [var for var in self._args_and_variables() if var['kind'] == self.VARIABLE_KIND]
         else:
             raise NotImplementedError("Not yet implemented returning an object representing an argument/local")
+
+    def rename_variable(self, old_name: str, new_name: str) -> None:
+        """
+        rename a variable or a local
+
+        @param old_name: the current name of the var/local
+        @param new_name: the name that will replace the current one
+        """
+        cmd = f"afvn {old_name} {new_name}"
+        with self.seek_function():
+            self.cmd(cmd)
+
 
     def print_opcodes(self):
         """
